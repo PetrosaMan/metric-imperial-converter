@@ -19,6 +19,7 @@ function ConvertHandler() {
     let num1 = nums[0];
     let num2 = nums[1] || ["1"]; 
     result = (parseFloat(num1) / parseFloat(num2)).toFixed(5);
+    
     if (isNaN(num1) || isNaN(num2)) {
       return "invalid number";
     }
@@ -84,22 +85,22 @@ function ConvertHandler() {
 
     switch (unit) {
       case 'gal': 
-        result = 'gallon(s)';
+        result = 'gallons';
         break;
       case 'l':
-        result = 'litre(s)';
+        result = 'litres';
         break;
       case 'lbs':
-        result = 'pound(s)';
+        result = 'pounds';
         break;
       case 'kg':
-        result = 'kilogram(s)';
+        result = 'kilograms';
         break;
       case 'mi':
-        result = 'mile(s)';
+        result = 'miles';
         break;
       case 'km':
-        result = 'kilometer(s)';
+        result = 'kilometers';
         break;
       default:
         result = 'invalid unit'
@@ -142,9 +143,21 @@ function ConvertHandler() {
       
   };
   
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result = initNum + ' ' + this.spellOutUnit(initUnit) + ' converts to ' + returnNum + this.spellOutUnit(returnUnit);
-    return result;
+  this.getString = function(initNum, initUnit, returnNum, returnUnit) {    
+      // these variables don't remove trailing zero's
+      // when entered as parseFloat(initNum) and parseFloat(returnNum)
+      // Therefore they are not parsed in the result variable
+      initNum = parseFloat(initNum);
+      returnNum = parseFloat(returnNum);
+
+      let result = {
+      initNum: initNum,
+      initUnit: initUnit,
+      returnNum: returnNum,
+      returnUnit: returnUnit,
+      string: `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`
+    };
+    return result
   };
   
 }

@@ -10,25 +10,18 @@ module.exports = function (app) {
     let input = req.query.input;   
     let initNum = convertHandler.getNum(input);
     let initUnit = convertHandler.getUnit(input);
-
+    //console.log("*** ", initNum, typeof initNum);
     if (initNum === "invalid number" && initUnit === "invalid unit"){
       res.json("invalid number and unit");
   } else if (initNum === "invalid number") {
       res.json("invalid number");
   } else if (initUnit === "invalid unit") {
       res.json("invalid unit");
-  } else {
-    
+  } else {    
     let returnNum = convertHandler.convert(initNum, initUnit);
     let returnUnit = convertHandler.getReturnUnit(initUnit);
-    let myString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
-    let responseObject = { "initNum": initNum,
-                           "initUnit": initUnit,
-                           "returnNum": returnNum,
-                           "returnUnit": returnUnit,
-                           "string": myString                           
-                          }
-    res.json(responseObject);
-  }
+    let responseObject = convertHandler.getString (initNum, initUnit, returnNum, returnUnit);
+    res.json(responseObject);     
+  }    
   });
 }
