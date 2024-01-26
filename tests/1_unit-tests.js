@@ -32,5 +32,46 @@ suite('Unit Tests', function(){
           done();
         });
 
+        test('Double Fractional input', function(done){
+          let input = '5/6/7kg';
+          assert.equal(convertHandler.getNum(input), 'invalid number');
+          done();
+        });
+
+        test('Default to 1 for no numerical input', function(done){
+          let input = 'kg';
+          assert.equal(convertHandler.getNum(input), 1);
+          done();
+        });
+
+        test('Valid unit input', function(done){
+          let input = '28mi';
+          assert.equal(convertHandler.getUnit(input), 'mi');
+          done();
+        });
+
+        test('Invalid input unit', function(done){
+          let input = '28miles';
+          assert.notEqual(convertHandler.getUnit(input), 'mi');
+          done();
+        });
+
+        test('Returns correct unit for each valid input unit', function(done){
+          let input = '28mi';
+          assert.equal(convertHandler.getUnit(input), 'mi');
+          done();
+        });
+
+        test('Returns correct spelled out unit for a valid input unit', function(done){
+          let unit = 'mi';          
+          assert.equal(convertHandler.spellOutUnit(unit),'miles');
+          done();
+        }); 
+        
+        test('convertHandler should correctly convert units', function(done) {
+
+          done();
+        });
+
     });
 });
