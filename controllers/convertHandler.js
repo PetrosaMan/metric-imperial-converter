@@ -1,38 +1,43 @@
-function isFraction(result) { 
-  //console.log('**Result: ',result); 
-  let numStr = result.split('/');  
+function isFraction(result) {
+  let numStr = result.split('/');
   if (numStr.length > 2) {
-      return false;
+    return false;
   }
   return numStr;
 }
 
-function ConvertHandler() {  
+function ConvertHandler() {
+  this.getNum = function (input) {
+    // Extract numerical part from input (including fractions)
+    let result = input.match(/[.\d\/]+/g) || ["1"];
 
-  this.getNum = function(input) {     
-    let result = input.match(/[.\d\/]+/g)|| ["1"]; 
-    //console.log(result);   
+    // Check if the result is a valid fraction
     let nums = isFraction(result[0]);
     if (nums === false) {
-      return  "invalid number";['1'];
+      return "invalid number";
     }
-    let num1 = nums[0];
-    let num2 = nums[1] || ["1"]; 
-    result = (parseFloat(num1) / parseFloat(num2)).toFixed(5);
-    
+
+    // Parse numerator and denominator
+    let num1 = parseFloat(nums[0]);
+    let num2 = parseFloat(nums[1] || "1");
+
+    // Check if parsing is successful
     if (isNaN(num1) || isNaN(num2)) {
       return "invalid number";
     }
-    return result;     
+    
+    // Calculate the result
+    result = num1 / num2;
+    return result;
   };
+//}
   
   this.getUnit = function(input) {        
     let unit = input.match(/[a-zA-Z]+/g);    
     if (unit === null) {      
       return 'invalid unit';
     }    
-    unit[0]= unit[0].toLowerCase(); 
-    //console.log('unit[0] ', unit[0]) 
+    unit[0]= unit[0].toLowerCase();      
     switch(unit[0]) {
         case 'gal':
           return 'gal';          
@@ -137,25 +142,17 @@ function ConvertHandler() {
         break;
       default:
          return 'invalid number';            
-    }     
-    const convertedValue = parseFloat(result).toFixed(5);  
-    return convertedValue; 
-      
+    }       
+    return result;       
   };
   
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {    
-      // these variables don't remove trailing zero's
-      // when entered as parseFloat(initNum) and parseFloat(returnNum)
-      // Therefore they are not parsed in the result variable
-      initNum = parseFloat(initNum);
-      returnNum = parseFloat(returnNum);
-
+  this.getString = function(initNum, initUnit, returnNum, returnUnit) { 
       let result = {
-      initNum: initNum,
+      initNum: parseFloat(initNum),
       initUnit: initUnit,
-      returnNum: returnNum,
+      returnNum: parseFloat(returnNum).toFixed(5),
       returnUnit: returnUnit,
-      string: `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`
+      string: `${initNum} ${this.spellOutUnit(initUnit)} converts to ${parseFloat(returnNum).toFixed(5)} ${this.spellOutUnit(returnUnit)}`
     };
     return result
   };

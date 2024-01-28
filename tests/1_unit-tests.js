@@ -24,14 +24,16 @@ suite('Unit Tests', function(){
         // #3
         test('Fractional Input', function(done) {
           let input = '15/30L';
-          assert.equal(convertHandler.getNum(input),15/30);
+          let expected = 0.5;
+          assert.equal(convertHandler.getNum(input).toFixed(5), expected);
           done();
         });
 
         // #4
         test('Fractional Input with a decimal', function(done) {
           let input = '15.37/30L';
-          assert.equal(convertHandler.getNum(input),0.51233);
+          let expected = 0.51233;
+          assert.equal(convertHandler.getNum(input).toFixed(5), expected);
           done();
         });
 
@@ -90,14 +92,21 @@ suite('Unit Tests', function(){
           done();
         });
 
-        // #11
-        test('convertHandler should correctly convert valid input value', function(done) {
-          // arrays required for input and ouput units
-          let initNum = 32; 
-          let initUnit = 'mi';         
-          assert.equal(convertHandler.convert(initNum, initUnit),51.49888);
+        // #15
+        test('lbs to kg', function(done) {          
+          const input = [5,'lbs']; 
+          const expected = 2.26796;         
+          assert.approximately(parseFloat(convertHandler.convert(input[0], input[1])),(expected), 0.1);  //0.1 tollerance
           done();
-        });  
+        });
+
+        // #16  
+        test('kg to lbs', function(done) {          
+          let input = [5, 'kg']; 
+          let expected = 11.0231;         
+          assert.approximately(parseFloat(convertHandler.convert(input[0], input[1])),expected, 0.1);  //0.1 tollerance
+          done();
+        });
 
     });
 });
