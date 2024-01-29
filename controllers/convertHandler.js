@@ -17,20 +17,25 @@ function ConvertHandler() {
       return "invalid number";
     }
 
-    // Parse numerator and denominator
-    let num1 = parseFloat(nums[0]);
-    let num2 = parseFloat(nums[1] || "1");
+    let num1, num2;
 
-    // Check if parsing is successful
-    if (isNaN(num1) || isNaN(num2)) {
+  if (nums.length === 1) {
+    // Handle decimals or integers
+    num1 = parseFloat(nums[0]);
+    num2 = 1; // Default denominator to 1
+  } else {
+    // Handle fractions
+    num1 = parseFloat(nums[0]);
+    num2 = parseFloat(nums[1]);
+
+    if (isNaN(num1) || isNaN(num2) || num2 === 0) {
       return "invalid number";
     }
-    
-    // Calculate the result
-    result = num1 / num2;
-    return result;
-  };
-//}
+  }
+  // Calculate the result
+  let resultValue = num1 / num2;
+  return resultValue;
+}; 
   
   this.getUnit = function(input) {        
     let unit = input.match(/[a-zA-Z]+/g);    
@@ -147,16 +152,15 @@ function ConvertHandler() {
   };
   
   this.getString = function(initNum, initUnit, returnNum, returnUnit) { 
-      let result = {
+    let result = {
       initNum: parseFloat(initNum),
       initUnit: initUnit,
-      returnNum: parseFloat(returnNum).toFixed(5),
+      returnNum: parseFloat(returnNum),
       returnUnit: returnUnit,
-      string: `${initNum} ${this.spellOutUnit(initUnit)} converts to ${parseFloat(returnNum).toFixed(5)} ${this.spellOutUnit(returnUnit)}`
+      string: `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum.toFixed(5)} ${this.spellOutUnit(returnUnit)}`
     };
-    return result
-  };
-  
+    return result;
+  };  
 }
 
 module.exports = ConvertHandler;
