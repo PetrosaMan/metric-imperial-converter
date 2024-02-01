@@ -9,7 +9,7 @@ function isFraction(result) {
 function ConvertHandler() {
   this.getNum = function (input) {
     // Extract numerical part from input (including fractions)
-    let result = input.match(/[.\d\/]+/g) || ["1"];
+    let result = input.match(/[.\d\/]+/g) || "1";
 
     // Check if the result is a valid fraction
     let nums = isFraction(result[0]);
@@ -34,31 +34,39 @@ function ConvertHandler() {
     }
     // Calculate the result
     let resultValue = num1 / num2;
-    return resultValue;
+    return resultValue; // returns a number
   };
 
   this.getUnit = function (input) {
     let unit = input.match(/[a-zA-Z]+/g);
+    let result;
     if (unit === null) {
-      return "invalid unit";
+      return "invalid unit: null";
     }
     unit[0] = unit[0].toLowerCase();
     switch (unit[0]) {
       case "gal":
-        return "gal";
+        result = "gal";
+        break;
       case "l":
-        return "L";
+        result = "L";
+        break;
       case "lbs":
-        return "lbs";
+        result = "lbs";
+        break;
       case "kg":
-        return "kg";
+        result = "kg";
+        break;
       case "mi":
-        return "mi";
+        result = "mi";
+        break;
       case "km":
-        return "km";
+        result = "km";
+        break;
       default:
-        return "invalid unit";
+        result = "invalid unit";
     }
+    return result;
   };
 
   this.getReturnUnit = function (initUnit) {
@@ -84,7 +92,7 @@ function ConvertHandler() {
         result = "mi";
         break;
       default:
-        return "invalid unit";
+        result = "invalid unit";
     }
     return result;
   };
@@ -148,6 +156,7 @@ function ConvertHandler() {
       default:
         return "invalid number";
     }
+    result = parseFloat(result.toFixed(5));
     return result;
   };
 
@@ -155,11 +164,11 @@ function ConvertHandler() {
     let result = {
       initNum: initNum,
       initUnit: initUnit,
-      returnNum: parseFloat(returnNum).toFixed(5),
+      returnNum: returnNum,
       returnUnit: returnUnit,
       string: `${initNum} ${this.spellOutUnit(
         initUnit,
-      )} converts to ${returnNum.toFixed(5)} ${this.spellOutUnit(returnUnit)}`,
+      )} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`,
     };
     return result;
   };

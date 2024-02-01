@@ -104,7 +104,8 @@ suite("Unit Tests", function () {
     // #11
     test("Converts gal to L", function (done) {
       let input = [5, "gal"];
-      let expected = 18.9271;
+      let expected = 18.92705;
+      
       assert.approximately(
         convertHandler.convert(input[0], input[1]),
         expected,
